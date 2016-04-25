@@ -16,8 +16,22 @@ Here, we detect all the objects linkd to the synsets cars, and we produce a heat
 ## Credits
 
 ## Install
+The only dependencies are h5py, Theano and Keras. Run the following commands
+```
+pip install --user cython h5py
+pip install --user git+https://github.com/Theano/Theano.git
+pip install --user git+https://github.com/fchollet/keras.git
+```
+## Get the weights of the pre-trained networks
+The weights can be found here : 
+* <a src="http://files.heuritech.com/weights/alexnet_weights.h5">AlexNet weights</a>
+* <a src="http://files.heuritech.com/weights/vgg16_weights.h5">VGG16 weights</a>
+* <a src="http://files.heuritech.com/weights/vgg19_weights.h5">VGG19 weights</a>
+
 
 ## How to use the convnets
+
+## Performances on ImageNet
 
 ## How to use the heatmap
 
