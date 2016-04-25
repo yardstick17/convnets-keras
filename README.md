@@ -7,8 +7,8 @@ This repo is regrouping some of of the most used CNN, pre-trained on the ImageNe
 
 We also propose a heatmap option, which allow to detect the location of an object from a given synset.
 
-<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/cars.jpg>
+<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/cars.jpg width="200px">
 
 Here, we detect all the objects linkd to the synsets cars, and we produce a heatmap : 
 
-<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/heatmap.png>
+<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/heatmap.png width="200px">
