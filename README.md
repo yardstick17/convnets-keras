@@ -13,8 +13,6 @@ Here, we detect all the objects linkd to the synsets cars, and we produce a heat
 
 <img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/heatmap.png width="400px">
 
-## Credits
-
 ## Install
 The only dependencies are h5py, Theano and Keras. Run the following commands
 ```
@@ -27,6 +25,13 @@ The weights can be found here :
 * <a href="http://files.heuritech.com/weights/alexnet_weights.h5">AlexNet weights</a>
 * <a href="http://files.heuritech.com/weights/vgg16_weights.h5">VGG16 weights</a>
 * <a href="http://files.heuritech.com/weights/vgg19_weights.h5">VGG19 weights</a>
+
+## Credits
+For the AlexNet network, we have adapted the weights that can be found here : 
+Taylor, Graham; Ding, Weiguang, 2015-03, "Theano-based large-scale visual recognition with multiple GPUs", <a href="http://hdl.handle.net/10864/10911">hdl:10864/10911</a> University of Guelph Research Data Repository [Distributor] V2 [Version]
+
+For the VGG networks, we have adapted the code released by baraldilorenzo here : https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
+We changed it to have the "heatmap" option, and we modified the weights in the same way.
 
 
 ## How to use the convnets
