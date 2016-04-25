@@ -62,7 +62,17 @@ out = model.predict(im)
 ## Performances on ImageNet
 
 ## How to use the heatmap
+Using the heatmap is almost the same thing. We suppose that we want the heatmap of the synset with idea 256 : 
+```python
+im = preprocess_image_batch(['examples/dog.jpg'], color_mode="bgr")
 
+sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+model = convnet('alexnet',weights_path="weights/alexnet_weights.h5", heatmap=True)
+model.compile(optimizer=sgd, loss='mse')
+
+out = model.predict(im)
+heatmap = out[0,256]
+```
 ## Get the links with the ImageNet synsets
 We propose a few utils function to make the link between the index returned by the networks, and the synsets of ImageNet.
 
