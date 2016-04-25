@@ -61,6 +61,12 @@ out = model.predict(im)
 
 ## Performances on ImageNet
 
+Networks | AlexNet | VGG16 | VGG19 |
+--------------------------------------
+Top1 Error | 0.42942 | TODO | TODO |
+Top 5 error |  0.20086 | TODO | TODO |
+Top 10 error | 0.13836 | TODO | TODO |
+
 ## How to use the heatmap
 Using the heatmap is almost the same thing. We suppose that we want the heatmap of the synset with idea 256 : 
 ```python
