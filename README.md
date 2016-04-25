@@ -82,7 +82,7 @@ plt.imsave("heatmap_dog.png",heatmap)
 ```
 <img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/dog.jpg width="400px">
 
-<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/dog_heatmap.png width="400px">
+<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/heatmap_dog.png width="400px">
 
 ## Get the links with the ImageNet synsets
 We propose a few utils function to make the link between the index returned by the networks, and the synsets of ImageNet.
