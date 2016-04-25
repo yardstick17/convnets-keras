@@ -35,6 +35,29 @@ We changed it to have the "heatmap" option, and we modified the weights in the s
 
 
 ## How to use the convnets
+**BEWARE** !! : Since the networks have been trained in different settings, the preprocessing is different for the differents networks : 
+* For the AlexNet, the images (for the mode without the heatmap) has to be of shape (227,227). It is recommended to resize the images with a size of (256,256), and then do a crop of size (227,227). The colors are in RGB order.
+```
+im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="rgb")
+
+sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+model = convnet('alexnet',weights_path="weights/alexnet_weights.h5", heatmap=False)
+model.compile(optimizer=sgd, loss='mse')
+
+out = model.predict(im)
+```
+
+* For the VGG, the images (for the mode without the heatmap) has to be of shape (224,224). It is recommended to resize the images with a size of (256,256), and then do a crop of size (224,224). The colors are in BGR order.
+```
+im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="bgr")
+
+sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+model = convnet('alexnet',weights_path="weights/alexnet_weights.h5", heatmap=False)
+model.compile(optimizer=sgd, loss='mse')
+
+out = model.predict(im)
+```
+
 
 ## Performances on ImageNet
 
