@@ -71,8 +71,19 @@ model = convnet('alexnet',weights_path="weights/alexnet_weights.h5", heatmap=Tru
 model.compile(optimizer=sgd, loss='mse')
 
 out = model.predict(im)
-heatmap = out[0,256]
+
+s = "n02084071"
+ids = synset_to_dfs_ids(s)
+heatmap = out[0,ids].sum(axis=0)
+
+# Then, we can get the image
+import matplotlib.pyplot as plt
+plt.imsave("heatmap_dog.png",heatmap)
 ```
+<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/dog.jpg width="400px">
+
+<img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/dog_heatmap.png width="400px">
+
 ## Get the links with the ImageNet synsets
 We propose a few utils function to make the link between the index returned by the networks, and the synsets of ImageNet.
 
