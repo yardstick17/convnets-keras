@@ -41,3 +41,15 @@ We changed it to have the "heatmap" option, and we modified the weights in the s
 ## How to use the heatmap
 
 ## Get the links with the ImageNet synsets
+We propose a few utils function to make the link between the index returned by the networks, and the synsets of ImageNet.
+
+#### Converting synsets to ids
+It can be usefull to use the ids of ImageNet (which can be found on <a href ="http://image-net.org/explore"> this page </a>, if you want to know the meaning of the classification.
+We have two functions : `id_to_synset` and `synset_to_id`
+* `id_to_synset` is taking an id of the output of the networks, and returning the WordNet synset
+```
+>>> id_to_synset(243)
+'n03793489'
+```
+* `synset_to_id is doing the inverse operation
+#### Getting all the children of a synset 
