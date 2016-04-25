@@ -27,10 +27,10 @@ The weights can be found here :
 * <a href="http://files.heuritech.com/weights/vgg19_weights.h5">VGG19 weights</a>
 
 ## Credits
-For the AlexNet network, we have adapted the weights that can be found here : 
-Taylor, Graham; Ding, Weiguang, 2015-03, "Theano-based large-scale visual recognition with multiple GPUs", <a href="http://hdl.handle.net/10864/10911">hdl:10864/10911</a> University of Guelph Research Data Repository [Distributor] V2 [Version]
+* For the AlexNet network, we have adapted the weights that can be found here : 
+Taylor, Graham; Ding, Weiguang, 2015-03, <i>"Theano-based large-scale visual recognition with multiple GPUs"</i>, <a href="http://hdl.handle.net/10864/10911">hdl:10864/10911</a> University of Guelph Research Data Repository 
 
-For the VGG networks, we have adapted the code released by baraldilorenzo here : https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
+* For the VGG networks, we have adapted the code released by baraldilorenzo here : https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
 We changed it to have the "heatmap" option, and we modified the weights in the same way.
 
 
