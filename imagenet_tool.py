@@ -1,8 +1,3 @@
-import sys
-
-sys.path.insert(0, "/home/lblier/.local/lib/python2.7/site-packages")
-sys.path.append("/home/lblier/")
-
 import numpy as np
 
 from os import listdir
@@ -25,4 +20,10 @@ for i in range(1,1001):
     
 
 def synset_to_id(synset):
+    a = next(i for (i,s) in synsets if s == synset)
+    return a
+
+
+def id_to_synset(id):
+    return synsets[corr[id]][1]
     
