@@ -37,7 +37,7 @@ We changed it to have the "heatmap" option, and we modified the weights in the s
 ## How to use the convnets
 **BEWARE** !! : Since the networks have been trained in different settings, the preprocessing is different for the differents networks : 
 * For the AlexNet, the images (for the mode without the heatmap) has to be of shape (227,227). It is recommended to resize the images with a size of (256,256), and then do a crop of size (227,227). The colors are in RGB order.
-```
+```python
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="rgb")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
@@ -48,7 +48,7 @@ out = model.predict(im)
 ```
 
 * For the VGG, the images (for the mode without the heatmap) has to be of shape (224,224). It is recommended to resize the images with a size of (256,256), and then do a crop of size (224,224). The colors are in BGR order.
-```
+```python
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="bgr")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
@@ -70,7 +70,7 @@ We propose a few utils function to make the link between the index returned by t
 It can be usefull to use the ids of ImageNet (which can be found on <a href ="http://image-net.org/explore"> this page </a>, if you want to know the meaning of the classification.
 We have two functions : `id_to_synset` and `synset_to_id`
 * `id_to_synset` is taking an id of the output of the networks, and returning the WordNet synset
-```
+```python
 >>> id_to_synset(243)
 'n03793489'
 ```
@@ -79,7 +79,7 @@ We have two functions : `id_to_synset` and `synset_to_id`
 #### Getting all the children of a synset 
 If you want to detect all cars, you might need to have a classification of higher level than the one given by the wordnets of ImageNet. Indeed, a lot of different synsets are present for different kinds of cars.
 We can then choose a synset in the tree, and select all the ids of its children : 
-```
+```python
 >>>synset_to_dfs_ids("n04576211")
 [670, 870, 880, 444, 671, 565, 705, 428, 791, 561, 757, 829, 866, 847, 547, 820, 408, 573, 575, 803, 407, 436, 468, 511, 609, 627, 656, 661, 751, 817, 665, 555, 569, 717, 864, 867, 675, 734, 656, 586, 847, 802, 660, 603, 612, 690]
 ```
