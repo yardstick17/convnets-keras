@@ -9,6 +9,8 @@ from keras.optimizers import SGD
 from customlayers import convolution2Dgroup, crosschannelnormalization, splittensor, \
     Softmax4D
 
+from imagenet_tool import synset_to_id, id_to_synset,synset_to_dfs_ids
+
 from scipy.misc import imread, imresize, imsave
 
 
@@ -18,8 +20,10 @@ def convnet(network, weights_path=None, heatmap=False,
     """
     Returns a keras model for a CNN.
     
-    This model takes as an input a 3x224x244 picture and returns a 
-    1000-dimensional vector.
+    BEWARE !! : Since the different convnets have been trained in different settings, they don't take 
+    data of the same shape. You should change the arguments of preprocess_img_batch for each CNN : 
+    * For AlexNet, the data are of shape (227,227), and the colors in the RGB order (default)
+    * For VGG16 and VGG19, the data are of shape (224,224), and the colors in the BGR order
 
     It can also be used to look at the hidden layers of the model.
 
@@ -61,7 +65,7 @@ def convnet(network, weights_path=None, heatmap=False,
     elif network == 'vgg_19':
         convnet_init = VGG_19
     elif network == 'alexnet':
-        convnet_init = Alexnet
+        convnet_init = AlexNet
     convnet = convnet_init(weights_path, heatmap=False)
 
     if not heatmap:
@@ -315,17 +319,24 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, bgr_order
 
 
 if __name__ == "__main__":
-    # base_image = K.variable(preprocess_image('~/Pictures/cat.jpg'))
+    ### Here is a script to compute the heatmap of the cars synsets.
+    ## We find the synsets corresponding to cars on ImageNet website
+    s = "n02958343"
+    ids = synset_to_dfs_ids(s)
+    # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
+    ids = np.array([id for id in ids if id != None])
+    
     im = preprocess_image_batch(['cars.jpg'])
     #im_crop = preprocess_image_batch(['dog.jpg'])
 
     # Test pretrained model
     sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
-    model = convnet('vgg_16',weights_path="weights/vgg16_weights_new.h5", heatmap=True)
+    model = convnet('vgg_19',weights_path="../NeuralModels/weights/vgg19_weights.h5", heatmap=True)
     model.compile(optimizer=sgd, loss='mse')
     
     
     out = model.predict(im)
+    heatmap = out[0,ids,:,:].sum(axis=0)
     
 
     
