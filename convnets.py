@@ -1,8 +1,3 @@
-import sys
-
-sys.path.insert(0, "/home/lblier/.local/lib/python2.7/site-packages")
-sys.path.append("/home/lblier/")
-
 import numpy as np
 
 from keras.models import Sequential, Model
@@ -14,13 +9,11 @@ from keras.optimizers import SGD
 from customlayers import convolution2Dgroup, crosschannelnormalization, splittensor, \
     Softmax4D
 
-from os.path import join
-
 from scipy.misc import imread, imresize, imsave
 
 
 
-def convnet(network, weights_path=None, output_layer=None, heatmap=False,
+def convnet(network, weights_path=None, heatmap=False,
             trainable=None):
     """
     Returns a keras model for a CNN.
@@ -34,7 +27,7 @@ def convnet(network, weights_path=None, output_layer=None, heatmap=False,
     >>> im = preprocess_img_batch(['cat.jpg'])
 
     >>> # Test pretrained model
-    >>> model = convnet('vgg_16', 'vgg16_weights.h5', 'conv5_3')
+    >>> model = convnet('vgg_16', 'weights/vgg16_weights.h5')
     >>> sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
     >>> model.compile(optimizer=sgd, loss='categorical_crossentropy')
     >>> out = model.predict(im)
@@ -47,11 +40,9 @@ def convnet(network, weights_path=None, output_layer=None, heatmap=False,
     weights_path: str
         Location of the pre-trained model. If not given, the model will be trained
 
-    layer_output: dict
-        Iterable of the name of all the feature layers that will be returned
-
-    convolutionize: bool
-        Says wether the fully connected layers are transformed into Convolution2D layers
+    heatmap: bool
+        Says wether the fully connected layers are transformed into Convolution2D layers,
+        to produce a heatmap instead of a 
 
 
     Returns
