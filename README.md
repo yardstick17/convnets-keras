@@ -24,9 +24,9 @@ pip install --user git+https://github.com/fchollet/keras.git
 ```
 ## Get the weights of the pre-trained networks
 The weights can be found here : 
-* <a src="http://files.heuritech.com/weights/alexnet_weights.h5">AlexNet weights</a>
-* <a src="http://files.heuritech.com/weights/vgg16_weights.h5">VGG16 weights</a>
-* <a src="http://files.heuritech.com/weights/vgg19_weights.h5">VGG19 weights</a>
+* <a href="http://files.heuritech.com/weights/alexnet_weights.h5">AlexNet weights</a>
+* <a href="http://files.heuritech.com/weights/vgg16_weights.h5">VGG16 weights</a>
+* <a href="http://files.heuritech.com/weights/vgg19_weights.h5">VGG19 weights</a>
 
 
 ## How to use the convnets
