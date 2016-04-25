@@ -52,4 +52,11 @@ We have two functions : `id_to_synset` and `synset_to_id`
 'n03793489'
 ```
 * `synset_to_id is doing the inverse operation
+
 #### Getting all the children of a synset 
+If you want to detect all cars, you might need to have a classification of higher level than the one given by the wordnets of ImageNet. Indeed, a lot of different synsets are present for different kinds of cars.
+We can then choose a synset in the tree, and select all the ids of its children : 
+```
+>>>synset_to_dfs_ids("n04576211")
+[670, 870, 880, 444, 671, 565, 705, 428, 791, 561, 757, 829, 866, 847, 547, 820, 408, 573, 575, 803, 407, 436, 468, 511, 609, 627, 656, 661, 751, 817, 665, 555, 569, 717, 864, 867, 675, 734, 656, 586, 847, 802, 660, 603, 612, 690]
+```
