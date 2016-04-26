@@ -60,7 +60,7 @@ The prediction time is computed on a GeForce GTX TITAN X, with a Theano backend,
 AlexNet has lower results than the two VGGs, but it is much more lighter and faster, so it can easily be run on a small GPU (like on AWS), or even on a CPU.
 ```
 Networks                            | AlexNet     |     VGG16   |     VGG19   |
------------------------------------------------------------------
+-------------------------------------------------------------------------------
 Top 1 Error                         |   0.4294    |   0.4766    |     TODO    |
 Top 5 error                         |   0.2009    |   0.2298    |     TODO    |
 Top 10 error                        |   0.1384    |   0.1596    |     TODO    |
