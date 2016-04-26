@@ -61,9 +61,9 @@ AlexNet has lower results than the two VGGs, but it is much more lighter and fas
 ```
 Networks                            | AlexNet     |     VGG16   |     VGG19   |
 -------------------------------------------------------------------------------
-Top 1 Error                         |   0.4294    |   0.4766    |     TODO    |
-Top 5 error                         |   0.2009    |   0.2298    |     TODO    |
-Top 10 error                        |   0.1384    |   0.1596    |     TODO    |
+Top 1 Error                         |   42,94%    |   32,93%    |   32,77%    |
+Top 5 error                         |   20,09%    |   12,39%    |   12,17%    |
+Top 10 error                        |   13,84%    |    7,77%    |    7,80%    |
 Number of params                    |     61M     |     138M    |     144M    |
 Prediction time, batch of 64 (GPU)  |   0.4101s   |   0.9645s   |   1.0370s   |
 Prediction time, single image (CPU) |   0.6773s   |   1.3353s   |   1.5722s   |
