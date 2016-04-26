@@ -72,7 +72,7 @@ Prediction time, single image (CPU) |   0.6773s   |   1.3353s   |   1.5722s   |
 ## How to use the heatmap
 The heatmap are produced by converting the model into a fully convolutionize model. The fully connected layers are transformed into convolution layers (by using the same weights), so we are able to compute the output of the network on each sub-frame of size (227,227) (or (224,224)) of a bigger picture. This produces a heatmap for each label of the classifier.
 
-Using the heatmap is almost the same thing than directly classify. We suppose that we want the heatmap of the synset with idea 256 : 
+Using the heatmap is almost the same thing than directly classify. We suppose that we want the heatmap of the all the synsets linked with dogs, which are all the children in Wordnet of the synset "n02084071" (see next section to know how to find how we can get all the labels linked with a given synset) : 
 ```python
 im = preprocess_image_batch(['examples/dog.jpg'], color_mode="bgr")
 
