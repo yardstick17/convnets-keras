@@ -284,7 +284,7 @@ def AlexNet(weights_path=None, heatmap=False):
 
 
 
-def preprocess_image_batch(image_paths, img_size=None, crop_size=None, bgr_order=False, out=None):
+def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mode="rgb", out=None):
     img_list = []
     
     for im_path in image_paths:
@@ -294,7 +294,7 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, bgr_order
             
         img = img.astype('float32')
         # We permute the colors to get them in the BGR order
-        if bgr_order:
+        if color_mode=="bgr":
             img[:,:,[0,1,2]] = img[:,:,[2,1,0]]
         # We normalize the colors with the empirical means on the training set
         img[:, :, 0] -= 123.68 
@@ -321,12 +321,12 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, bgr_order
 if __name__ == "__main__":
     ### Here is a script to compute the heatmap of the cars synsets.
     ## We find the synsets corresponding to cars on ImageNet website
-    s = "n02958343"
+    s = "n02084071"
     ids = synset_to_dfs_ids(s)
     # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
     ids = np.array([id for id in ids if id != None])
     
-    im = preprocess_image_batch(['cars.jpg'])
+    im = preprocess_image_batch(['dog.jpg'],color_mode="bgr")
     #im_crop = preprocess_image_batch(['dog.jpg'])
 
     # Test pretrained model

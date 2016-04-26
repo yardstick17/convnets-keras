@@ -50,5 +50,5 @@ def synset_to_id(synset):
 
 
 def id_to_synset(id):
-    return synsets[corr[id]][1]
+    return str(synsets[corr[id]][1][0])
     
