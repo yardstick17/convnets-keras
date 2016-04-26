@@ -9,7 +9,7 @@ We also propose a heatmap option, which allow to detect the location of an objec
 
 <img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/cars.jpg width="400px">
 
-Here, we detect all the objects linkd to the synsets cars, and we produce a heatmap : 
+Here, we detect all the objects linked to the synsets cars, and we produce a heatmap : 
 
 <img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/heatmap.png width="400px">
 
@@ -30,7 +30,7 @@ The weights can be found here :
 
 ## How to use the convnets
 **BEWARE** !! : Since the networks have been trained in different settings, the preprocessing is different for the differents networks : 
-* For the AlexNet, the images (for the mode without the heatmap) has to be of shape (227,227). It is recommended to resize the images with a size of (256,256), and then do a crop of size (227,227). The colors are in RGB order.
+* For the AlexNet, the images (for the mode without the heatmap) have to be of shape (227,227). It is recommended to resize the images with a size of (256,256), and then do a crop of size (227,227). The colors are in RGB order.
 ```python
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="rgb")
 
@@ -41,7 +41,7 @@ model.compile(optimizer=sgd, loss='mse')
 out = model.predict(im)
 ```
 
-* For the VGG, the images (for the mode without the heatmap) has to be of shape (224,224). It is recommended to resize the images with a size of (256,256), and then do a crop of size (224,224). The colors are in BGR order.
+* For the VGG, the images (for the mode without the heatmap) have to be of shape (224,224). It is recommended to resize the images with a size of (256,256), and then do a crop of size (224,224). The colors are in BGR order.
 ```python
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="bgr")
 
@@ -86,8 +86,8 @@ plt.imsave("heatmap_dog.png",heatmap)
 
 <img src=https://raw.githubusercontent.com/heuritech/convnets-keras/master/examples/heatmap_dog.png width="400px">
 
-## Get the links with the ImageNet synsets
-We propose a few utils function to make the link between the index returned by the networks, and the synsets of ImageNet.
+## Useful functions for ImageNet
+We propose a few utils function to link the index returned by the networks, and the synsets of ImageNet.
 
 #### Converting synsets to ids
 It can be usefull to use the ids of ImageNet (which can be found on <a href ="http://image-net.org/explore"> this page </a>, if you want to know the meaning of the classification.
