@@ -326,12 +326,11 @@ if __name__ == "__main__":
     # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
     ids = np.array([id for id in ids if id != None])
     
-    im = preprocess_image_batch(['dog.jpg'],color_mode="bgr")
-    #im_crop = preprocess_image_batch(['dog.jpg'])
+    im = preprocess_image_batch(['examples/dog.jpg'],color_mode="bgr")
 
     # Test pretrained model
     sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
-    model = convnet('vgg_19',weights_path="../NeuralModels/weights/vgg19_weights.h5", heatmap=True)
+    model = convnet('alexnet',weights_path="weights/alexnet_weights.h5", heatmap=True)
     model.compile(optimizer=sgd, loss='mse')
     
     
