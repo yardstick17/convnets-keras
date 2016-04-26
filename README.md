@@ -26,12 +26,6 @@ The weights can be found here :
 * <a href="http://files.heuritech.com/weights/vgg16_weights.h5">VGG16 weights</a>
 * <a href="http://files.heuritech.com/weights/vgg19_weights.h5">VGG19 weights</a>
 
-## Credits
-* For the AlexNet network, we have adapted the weights that can be found here : 
-Taylor, Graham; Ding, Weiguang, 2015-03, <i>"Theano-based large-scale visual recognition with multiple GPUs"</i>, <a href="http://hdl.handle.net/10864/10911">hdl:10864/10911</a> University of Guelph Research Data Repository 
-
-* For the VGG networks, we have adapted the code released by baraldilorenzo here : https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
-We changed it to have the "heatmap" option, and we modified the weights in the same way.
 
 
 ## How to use the convnets
@@ -112,3 +106,10 @@ We can then choose a synset in the tree, and select all the ids of its children 
 >>>synset_to_dfs_ids("n04576211")
 [670, 870, 880, 444, 671, 565, 705, 428, 791, 561, 757, 829, 866, 847, 547, 820, 408, 573, 575, 803, 407, 436, 468, 511, 609, 627, 656, 661, 751, 817, 665, 555, 569, 717, 864, 867, 675, 734, 656, 586, 847, 802, 660, 603, 612, 690]
 ```
+
+## Credits
+* For the AlexNet network, we have adapted the weights that can be found here : 
+Taylor, Graham; Ding, Weiguang, 2015-03, <i>"Theano-based large-scale visual recognition with multiple GPUs"</i>, <a href="http://hdl.handle.net/10864/10911">hdl:10864/10911</a> University of Guelph Research Data Repository 
+
+* For the VGG networks, we have adapted the code released by baraldilorenzo here : https://gist.github.com/baraldilorenzo/07d7802847aaad0a35d3
+We changed it to have the "heatmap" option, and we modified the weights in the same way.
