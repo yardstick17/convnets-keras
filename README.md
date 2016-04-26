@@ -54,13 +54,17 @@ out = model.predict(im)
 
 
 ## Performances on ImageNet
-
+The errors are tested on ImageNet validation set.
+The prediction time is computed on a GeForce GTX TITAN X, with a Theano backend, and a batch size of 64.
 ```
-Networks        | AlexNet | VGG16 | VGG19 |
--------------------------------------------
-Top 1 Error     | 0.42942 | TODO  | TODO  |
-Top 5 error     | 0.20086 | TODO  | TODO  |
-Top 10 error    | 0.13836 | TODO  | TODO  |
+Networks                            | AlexNet     |     VGG16   |     VGG19   |
+-----------------------------------------------------------------
+Top 1 Error                         |   0.42942   |     TODO    |     TODO    |
+Top 5 error                         |   0.20086   |     TODO    |     TODO    |
+Top 10 error                        |   0.13836   |     TODO    |     TODO    |
+Number of params                    |     61M     |     138M    |     144M    |
+Prediction time, batch of 64 (GPU)  |   0.4101s   |   0.9645s   |   1.0370s   |
+Prediction time, single image (CPU) |   0.6773s   |   1.3353s   |   1.5722s   |
 ```
 
 ## How to use the heatmap
