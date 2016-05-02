@@ -43,10 +43,10 @@ out = model.predict(im)
 
 * For the VGG, the images (for the mode without the heatmap) have to be of shape (224,224). It is recommended to resize the images with a size of (256,256), and then do a crop of size (224,224). The colors are in BGR order.
 ```python
-im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="bgr")
+im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(224,224), color_mode="bgr")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
-model = convnet('alexnet',weights_path="weights/alexnet_weights.h5", heatmap=False)
+model = convnet('vgg_16',weights_path="weights/vgg16_weights.h5", heatmap=False)
 model.compile(optimizer=sgd, loss='mse')
 
 out = model.predict(im)
