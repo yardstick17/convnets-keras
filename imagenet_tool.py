@@ -50,5 +50,13 @@ def synset_to_id(synset):
 
 
 def id_to_synset(id):
-    return str(synsets[corr[id]][1][0])
+    return str(synsets[corr_inv[id]-1][1][0])
     
+
+def id_to_words(id):
+    return synsets[corr_inv[id]-1][2][0]
+
+def pprint_output(out, n_max_synsets=10):
+    best_ids = out.argsort()[::-1][:10]
+    for u in best_ids:
+        print("%.2f"% round(100*out[u],2)+" : "+id_to_words(u))
