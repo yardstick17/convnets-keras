@@ -46,10 +46,14 @@ out = model.predict(im)
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(224,224), color_mode="bgr")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+## For the VGG16, use this command
 model = convnet('vgg_16',weights_path="weights/vgg16_weights.h5", heatmap=False)
+## For the VGG19, use this one instead
+# model = convnet('vgg_19',weights_path="weights/vgg19_weights.h5", heatmap=False)
 model.compile(optimizer=sgd, loss='mse')
 
 out = model.predict(im)
+
 ```
 
 
