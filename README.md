@@ -20,6 +20,14 @@ pip install --user cython h5py
 pip install --user git+https://github.com/Theano/Theano.git
 pip install --user git+https://github.com/fchollet/keras.git
 ```
+
+Then, you need to install the convnetskeras module :
+```
+git clone https://github.com/heuritech/convnets-keras.git
+cd convnets-keras
+sudo python setup.py install
+```
+
 ## Get the weights of the pre-trained networks
 The weights can be found here : 
 * <a href="http://files.heuritech.com/weights/alexnet_weights.h5">AlexNet weights</a>
@@ -32,6 +40,9 @@ The weights can be found here :
 **BEWARE** !! : Since the networks have been trained in different settings, the preprocessing is different for the differents networks : 
 * For the AlexNet, the images (for the mode without the heatmap) have to be of shape (227,227). It is recommended to resize the images with a size of (256,256), and then do a crop of size (227,227). The colors are in RGB order.
 ```python
+from keras.optimizers import SGD
+from convnetskeras.convnets import preprocess_image_batch, convnet
+
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(227,227), color_mode="rgb")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
@@ -43,6 +54,9 @@ out = model.predict(im)
 
 * For the VGG, the images (for the mode without the heatmap) have to be of shape (224,224). It is recommended to resize the images with a size of (256,256), and then do a crop of size (224,224). The colors are in BGR order.
 ```python
+from keras.optimizers import SGD
+from convnetskeras.convnets import preprocess_image_batch, convnet
+
 im = preprocess_image_batch(['examples/dog.jpg'],img_size=(256,256), crop_size=(224,224), color_mode="bgr")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
@@ -78,6 +92,10 @@ The heatmap are produced by converting the model into a fully convolutionize mod
 
 Using the heatmap is almost the same thing than directly classify. We suppose that we want the heatmap of the all the synsets linked with dogs, which are all the children in Wordnet of the synset "n02084071" (see next section to know how to find how we can get all the labels linked with a given synset) : 
 ```python
+from keras.optimizers import SGD
+from convnetskeras.convnets import preprocess_image_batch, convnet
+from convnetskeras.imagenet_tool import synset_to_dfs_ids
+
 im = preprocess_image_batch(['examples/dog.jpg'], color_mode="bgr")
 
 sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
@@ -106,6 +124,7 @@ It can be usefull to use the ids of ImageNet (which can be found on <a href ="ht
 We have two functions : `id_to_synset` and `synset_to_id`
 * `id_to_synset` is taking an id of the output of the networks, and returning the WordNet synset
 ```python
+>>> from convnetskeras.imagenet_tool import id_to_synset
 >>> id_to_synset(243)
 'n03793489'
 ```

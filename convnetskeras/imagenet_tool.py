@@ -1,14 +1,13 @@
 import numpy as np
 
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, dirname
 
 from scipy.io import loadmat
 
 
 
-
-meta_clsloc_file = "meta_clsloc.mat"
+meta_clsloc_file = join(dirname(__file__), "data", "meta_clsloc.mat")
 
 
 synsets = loadmat(meta_clsloc_file)["synsets"][0]

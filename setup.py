@@ -5,6 +5,9 @@ setup(name='convnetskeras',
       description='Pre-trained convnets in Keras',
       author='Leonard Blier',
       author_email='leonard.blier@ens.fr',
-      packages=['convnetskeras']
+      packages=['convnetskeras'],
+      package_dir={'convnetskeras':'convnetskeras'},
+      package_data={'convnetskeras':["data/*"]},
+      long_description=open('README.md').read(),
      )
 
