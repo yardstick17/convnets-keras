@@ -6,10 +6,10 @@ from keras.layers import Flatten, Dense, Dropout, Reshape, Permute, Activation, 
 from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2D
 from keras.optimizers import SGD
 
-from customlayers import convolution2Dgroup, crosschannelnormalization, splittensor, \
-    Softmax4D
+from convnetskeras.customlayers import convolution2Dgroup, crosschannelnormalization, \
+    splittensor, Softmax4D
 
-from imagenet_tool import synset_to_id, id_to_synset,synset_to_dfs_ids
+from convnetskeras.imagenet_tool import synset_to_id, id_to_synset,synset_to_dfs_ids
 
 from scipy.misc import imread, imresize, imsave
 
@@ -139,7 +139,7 @@ def VGG_16(weights_path=None, heatmap=False):
         model.add(Convolution2D(1000,1,1,name="dense_3"))
         model.add(Softmax4D(axis=1,name="softmax"))
     else:
-        model.add(Flatten())
+        model.add(Flatten(name="flatten"))
         model.add(Dense(4096, activation='relu', name='dense_1'))
         model.add(Dropout(0.5))
         model.add(Dense(4096, activation='relu', name='dense_2'))
