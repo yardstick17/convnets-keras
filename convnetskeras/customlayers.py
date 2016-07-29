@@ -7,7 +7,7 @@ from keras.engine import Layer
 
 def crosschannelnormalization(alpha = 1e-4, k=2, beta=0.75, n=5,**kwargs):
     """
-    This is the function used for cross channel normalization in the original 
+    This is the function used for cross channel normalization in the original
     Alexnet
     """
     def f(X):
@@ -41,16 +41,16 @@ def splittensor(axis=1, ratio_split=1, id_split=0,**kwargs):
             output == X[:,:,:,id_split*div:(id_split+1)*div]
         else:
             raise ValueError("This axis is not possible")
-        
+
         return output
 
     def g(input_shape):
         output_shape=list(input_shape)
         output_shape[axis] = output_shape[axis] // ratio_split
         return tuple(output_shape)
-        
+
     return Lambda(f,output_shape=lambda input_shape:g(input_shape),**kwargs)
-    
+
 
 
 
@@ -65,7 +65,7 @@ def convolution2Dgroup(n_group, nb_filter, nb_row, nb_col, **kwargs):
         ],mode='concat',concat_axis=1)
 
     return f
-            
+
 
 class Softmax4D(Layer):
     def __init__(self, axis=-1,**kwargs):
