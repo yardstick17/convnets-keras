@@ -305,7 +305,7 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mod
         img_list.append(img)
 
     img_batch = np.stack(img_list, axis=0)
-    if not out is None:
+    if out is not None:
         out.append(img_batch)
     else:
         return img_batch
@@ -320,7 +320,7 @@ if __name__ == "__main__":
     s = "n02084071"
     ids = synset_to_dfs_ids(s)
     # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
-    ids = np.array([id for id in ids if id != None])
+    ids = np.array([id_ for id_ in ids if id_ is not None])
 
     im = preprocess_image_batch(['examples/dog.jpg'],color_mode="bgr")
 

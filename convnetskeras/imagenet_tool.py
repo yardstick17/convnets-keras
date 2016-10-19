@@ -23,16 +23,16 @@ corr_inv = {}
 for j in range(1,1001):
     corr_inv[corr[j]] = j
 
-def depthfirstsearch(id, out=None):
-    if out == None:
+def depthfirstsearch(id_, out=None):
+    if out is None:
         out = []
-    if type(id) == int:
+    if isinstance(id_, int):
         pass
     else:
-        id = next(int(s[0]) for s in synsets if s[1][0] == id)
+        id_ = next(int(s[0]) for s in synsets if s[1][0] == id_)
         
-    out.append(id)
-    children = synsets[id-1][5][0]
+    out.append(id_)
+    children = synsets[id_-1][5][0]
     for c in children:
         depthfirstsearch(int(c), out)
     return out
@@ -48,12 +48,12 @@ def synset_to_id(synset):
     return a
 
 
-def id_to_synset(id):
-    return str(synsets[corr_inv[id]-1][1][0])
+def id_to_synset(id_):
+    return str(synsets[corr_inv[id_]-1][1][0])
     
 
-def id_to_words(id):
-    return synsets[corr_inv[id]-1][2][0]
+def id_to_words(id_):
+    return synsets[corr_inv[id_]-1][2][0]
 
 def pprint_output(out, n_max_synsets=10):
     best_ids = out.argsort()[::-1][:10]
