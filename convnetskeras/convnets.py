@@ -17,14 +17,14 @@ def convnet(network, weights_path=None, heatmap=False,
     Returns a keras model for a CNN.
 
     BEWARE !! : Since the different convnets have been trained in different settings, they don't take
-    data of the same shape. You should change the arguments of preprocess_img_batch for each CNN :
+    data of the same shape. You should change the arguments of preprocess_image_batch for each CNN :
     * For AlexNet, the data are of shape (227,227), and the colors in the RGB order (default)
     * For VGG16 and VGG19, the data are of shape (224,224), and the colors in the BGR order
 
     It can also be used to look at the hidden layers of the model.
 
     It can be used that way :
-    >>> im = preprocess_img_batch(['cat.jpg'])
+    >>> im = preprocess_image_batch(['cat.jpg'])
 
     >>> # Test pretrained model
     >>> model = convnet('vgg_16', 'weights/vgg16_weights.h5')
@@ -305,7 +305,7 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mod
         img_list.append(img)
 
     img_batch = np.stack(img_list, axis=0)
-    if not out is None:
+    if out is not None:
         out.append(img_batch)
     else:
         return img_batch
@@ -320,7 +320,7 @@ if __name__ == "__main__":
     s = "n02084071"
     ids = synset_to_dfs_ids(s)
     # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
-    ids = np.array([id for id in ids if id != None])
+    ids = np.array([id_ for id_ in ids if id_ is not None])
 
     im = preprocess_image_batch(['examples/dog.jpg'],color_mode="bgr")
 
