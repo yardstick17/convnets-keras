@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 from convnetskeras.customlayers import crosschannelnormalization, \
     splittensor, Softmax4D

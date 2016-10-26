@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from keras import backend as K
 from keras.engine import Layer
 from keras.layers.convolutional import Convolution2D
