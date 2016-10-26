@@ -6,8 +6,7 @@ setup(name='convnetskeras',
       author='Leonard Blier',
       author_email='leonard.blier@ens.fr',
       packages=['convnetskeras'],
-      package_dir={'convnetskeras':'convnetskeras'},
-      package_data={'convnetskeras':["data/*"]},
+      package_dir={'convnetskeras': 'convnetskeras'},
+      package_data={'convnetskeras': ["data/*"]},
       long_description=open('README.md').read(),
-     )
-
+      )
