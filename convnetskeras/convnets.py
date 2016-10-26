@@ -306,14 +306,11 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mod
         return img_batch
 
 
-if __name__ == "__main__":
-    ### Here is a script to compute the heatmap of the dog synsets.
-    ## We find the synsets corresponding to dogs on ImageNet website
-    s = "n02084071"
-    ids = synset_to_dfs_ids(s)
-    # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
-    ids = np.array([id_ for id_ in ids if id_ is not None])
-
+def _demo_heatmap_script():
+    """
+    Here is a script to compute the heatmap of the dog synsets.
+    We find the synsets corresponding to dogs on ImageNet website
+    """
     im = preprocess_image_batch(['examples/dog.jpg'], color_mode="rgb")
 
     # Test pretrained model
@@ -322,4 +319,13 @@ if __name__ == "__main__":
     model.compile(optimizer=sgd, loss='mse')
 
     out = model.predict(im)
+
+    s = "n02084071"
+    # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
+    ids = np.array([id_ for id_ in synset_to_dfs_ids(s) if id_ is not None])
     heatmap = out[0, ids, :, :].sum(axis=0)
+    return heatmap
+
+
+if __name__ == "__main__":
+    _demo_heatmap_script()
