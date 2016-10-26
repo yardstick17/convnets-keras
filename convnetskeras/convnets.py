@@ -304,8 +304,13 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mod
 
         img_list.append(img)
 
-    img_batch = np.stack(img_list, axis=0)
-    if out is not None:
+    try:
+        img_batch = np.stack(img_list, axis=0)
+    except:
+        raise ValueError('when img_size and crop_size are None, images'
+                ' in image_paths must have the same shapes.')
+
+    if out is not None and hasattr(out, 'append'):
         out.append(img_batch)
     else:
         return img_batch
@@ -322,7 +327,7 @@ if __name__ == "__main__":
     # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
     ids = np.array([id_ for id_ in ids if id_ is not None])
 
-    im = preprocess_image_batch(['examples/dog.jpg'],color_mode="bgr")
+    im = preprocess_image_batch(['examples/dog.jpg'], color_mode="rgb")
 
     # Test pretrained model
     sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
