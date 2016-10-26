@@ -38,7 +38,7 @@ def splittensor(axis=1, ratio_split=1, id_split=0,**kwargs):
         elif axis == 2:
             output = X[:,:,id_split*div:(id_split+1)*div,:]
         elif axis == 3:
-            output == X[:,:,:,id_split*div:(id_split+1)*div]
+            output = X[:,:,:,id_split*div:(id_split+1)*div]
         else:
             raise ValueError("This axis is not possible")
 
