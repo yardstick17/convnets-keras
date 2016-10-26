@@ -38,7 +38,7 @@ def splittensor(axis=1, ratio_split=1, id_split=0,**kwargs):
         elif axis == 2:
             output = X[:,:,id_split*div:(id_split+1)*div,:]
         elif axis == 3:
-            output == X[:,:,:,id_split*div:(id_split+1)*div]
+            output = X[:,:,:,id_split*div:(id_split+1)*div]
         else:
             raise ValueError("This axis is not possible")
 
@@ -81,6 +81,4 @@ class Softmax4D(Layer):
         return e / s
 
     def get_output_shape_for(self, input_shape):
-        axis_index = self.axis % len(input_shape)
-        return tuple([input_shape[i] for i in range(len(input_shape)) \
-                      if i != axis_index ])
+        return input_shape
