@@ -68,14 +68,26 @@ def convnet(network, weights_path=None, heatmap=False, trainable=None):
         return convnet_heatmap
 
     # Select the network
+    convnet_init = __get_model_based_on_input_network(network)
+    convnet = convnet_init(weights_path, heatmap=False)
+    return __get_heatmap_model() if heatmap else convnet
+
+
+def __get_model_based_on_input_network(network):
+    """
+    Select correct model method based on input string
+
+    :type network: str
+    """
     if network == 'vgg_16':
         convnet_init = VGG_16
     elif network == 'vgg_19':
         convnet_init = VGG_19
     elif network == 'alexnet':
         convnet_init = AlexNet
-    convnet = convnet_init(weights_path, heatmap=False)
-    return __get_heatmap_model() if heatmap else convnet
+    else:
+        raise ValueError("Only 'vgg_16', 'vgg_19', 'alexnet' models available")
+    return convnet_init
 
 
 def VGG_16(weights_path=None, heatmap=False):
