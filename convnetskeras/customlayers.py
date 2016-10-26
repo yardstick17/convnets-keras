@@ -81,6 +81,4 @@ class Softmax4D(Layer):
         return e / s
 
     def get_output_shape_for(self, input_shape):
-        axis_index = self.axis % len(input_shape)
-        return tuple([input_shape[i] for i in range(len(input_shape)) \
-                      if i != axis_index ])
+        return input_shape
