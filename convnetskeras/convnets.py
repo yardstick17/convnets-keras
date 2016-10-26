@@ -10,8 +10,7 @@ from keras.optimizers import SGD
 from scipy.misc import imread, imresize
 
 
-def convnet(network, weights_path=None, heatmap=False,
-            trainable=None):
+def convnet(network, weights_path=None, heatmap=False, trainable=None):
     """
     Returns a keras model for a CNN.
 
@@ -52,21 +51,8 @@ def convnet(network, weights_path=None, heatmap=False,
     output_dict:
         Dict of feature layers, asked for in output_layers.
     """
-
-    # Select the network
-    if network == 'vgg_16':
-        convnet_init = VGG_16
-    elif network == 'vgg_19':
-        convnet_init = VGG_19
-    elif network == 'alexnet':
-        convnet_init = AlexNet
-    convnet = convnet_init(weights_path, heatmap=False)
-
-    if not heatmap:
-        return convnet
-    else:
+    def __get_heatmap_model():
         convnet_heatmap = convnet_init(heatmap=True)
-
         for layer in convnet_heatmap.layers:
             if layer.name.startswith("conv"):
                 orig_layer = convnet.get_layer(layer.name)
@@ -81,7 +67,15 @@ def convnet(network, weights_path=None, heatmap=False,
                 layer.set_weights([new_W, b])
         return convnet_heatmap
 
-    return model
+    # Select the network
+    if network == 'vgg_16':
+        convnet_init = VGG_16
+    elif network == 'vgg_19':
+        convnet_init = VGG_19
+    elif network == 'alexnet':
+        convnet_init = AlexNet
+    convnet = convnet_init(weights_path, heatmap=False)
+    return __get_heatmap_model() if heatmap else convnet
 
 
 def VGG_16(weights_path=None, heatmap=False):
