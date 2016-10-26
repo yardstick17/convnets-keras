@@ -271,6 +271,15 @@ def AlexNet(weights_path=None, heatmap=False):
 
 
 def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mode="rgb", out=None):
+    """
+    Consistent preprocessing of images batches
+
+    :param image_paths: iterable: images to process
+    :param crop_size: tuple: crop images if specified
+    :param img_size: tuple: resize images if specified
+    :param color_mode: Use rgb or change to bgr mode based on type of model you want to use
+    :param out: append output to this iterable if specified
+    """
     img_list = []
 
     for im_path in image_paths:
