@@ -2,7 +2,8 @@
 from keras import backend as K
 from keras.engine import Layer
 from keras.layers.convolutional import Convolution2D
-from keras.layers.core import Lambda, Merge
+from keras.layers.core import Lambda
+from keras.layers.core import Merge
 
 
 def crosschannelnormalization(alpha=1e-4, k=2, beta=0.75, n=5, **kwargs):
@@ -40,7 +41,7 @@ def splittensor(axis=1, ratio_split=1, id_split=0, **kwargs):
         elif axis == 3:
             output = X[:, :, :, id_split * div:(id_split + 1) * div]
         else:
-            raise ValueError("This axis is not possible")
+            raise ValueError('This axis is not possible')
 
         return output
 

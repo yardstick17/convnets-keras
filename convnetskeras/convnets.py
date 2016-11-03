@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from convnetskeras.customlayers import crosschannelnormalization, \
-    splittensor, Softmax4D
+from convnetskeras.customlayers import crosschannelnormalization
+from convnetskeras.customlayers import Softmax4D
+from convnetskeras.customlayers import splittensor
 from convnetskeras.imagenet_tool import synset_to_dfs_ids
-from keras.layers import Flatten, Dense, Dropout, Activation, \
-    Input, merge
-from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2D
-from keras.models import Sequential, Model
+from keras.layers import Activation
+from keras.layers import Dense
+from keras.layers import Dropout
+from keras.layers import Flatten
+from keras.layers import Input
+from keras.layers import merge
+from keras.layers.convolutional import Convolution2D
+from keras.layers.convolutional import MaxPooling2D
+from keras.layers.convolutional import ZeroPadding2D
+from keras.models import Model
+from keras.models import Sequential
 from keras.optimizers import SGD
-from scipy.misc import imread, imresize
+from scipy.misc import imread
+from scipy.misc import imresize
 
 
 def convnet(network, weights_path=None, heatmap=False, trainable=None):
@@ -55,10 +64,10 @@ def convnet(network, weights_path=None, heatmap=False, trainable=None):
     def __get_heatmap_model():
         convnet_heatmap = convnet_init(heatmap=True)
         for layer in convnet_heatmap.layers:
-            if layer.name.startswith("conv"):
+            if layer.name.startswith('conv'):
                 orig_layer = convnet.get_layer(layer.name)
                 layer.set_weights(orig_layer.get_weights())
-            elif layer.name.startswith("dense"):
+            elif layer.name.startswith('dense'):
                 orig_layer = convnet.get_layer(layer.name)
                 W, b = orig_layer.get_weights()
                 n_filter, previous_filter, ax1, ax2 = layer.get_weights()[0].shape
@@ -133,18 +142,18 @@ def VGG_16(weights_path=None, heatmap=False):
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     if heatmap:
-        model.add(Convolution2D(4096, 7, 7, activation="relu", name="dense_1"))
-        model.add(Convolution2D(4096, 1, 1, activation="relu", name="dense_2"))
-        model.add(Convolution2D(1000, 1, 1, name="dense_3"))
-        model.add(Softmax4D(axis=1, name="softmax"))
+        model.add(Convolution2D(4096, 7, 7, activation='relu', name='dense_1'))
+        model.add(Convolution2D(4096, 1, 1, activation='relu', name='dense_2'))
+        model.add(Convolution2D(1000, 1, 1, name='dense_3'))
+        model.add(Softmax4D(axis=1, name='softmax'))
     else:
-        model.add(Flatten(name="flatten"))
+        model.add(Flatten(name='flatten'))
         model.add(Dense(4096, activation='relu', name='dense_1'))
         model.add(Dropout(0.5))
         model.add(Dense(4096, activation='relu', name='dense_2'))
         model.add(Dropout(0.5))
         model.add(Dense(1000, name='dense_3'))
-        model.add(Activation("softmax", name="softmax"))
+        model.add(Activation('softmax', name='softmax'))
 
     if weights_path:
         model.load_weights(weights_path)
@@ -200,10 +209,10 @@ def VGG_19(weights_path=None, heatmap=False):
     model.add(MaxPooling2D((2, 2), strides=(2, 2)))
 
     if heatmap:
-        model.add(Convolution2D(4096, 7, 7, activation="relu", name="dense_1"))
-        model.add(Convolution2D(4096, 1, 1, activation="relu", name="dense_2"))
-        model.add(Convolution2D(1000, 1, 1, name="dense_3"))
-        model.add(Softmax4D(axis=1, name="softmax"))
+        model.add(Convolution2D(4096, 7, 7, activation='relu', name='dense_1'))
+        model.add(Convolution2D(4096, 1, 1, activation='relu', name='dense_2'))
+        model.add(Convolution2D(1000, 1, 1, name='dense_3'))
+        model.add(Softmax4D(axis=1, name='softmax'))
     else:
         model.add(Flatten())
         model.add(Dense(4096, activation='relu', name='dense_1'))
@@ -211,7 +220,7 @@ def VGG_19(weights_path=None, heatmap=False):
         model.add(Dense(4096, activation='relu', name='dense_2'))
         model.add(Dropout(0.5))
         model.add(Dense(1000, name='dense_3'))
-        model.add(Activation("softmax"))
+        model.add(Activation('softmax'))
 
     if weights_path:
         model.load_weights(weights_path)
@@ -229,12 +238,12 @@ def AlexNet(weights_path=None, heatmap=False):
                            name='conv_1')(inputs)
 
     conv_2 = MaxPooling2D((3, 3), strides=(2, 2))(conv_1)
-    conv_2 = crosschannelnormalization(name="convpool_1")(conv_2)
+    conv_2 = crosschannelnormalization(name='convpool_1')(conv_2)
     conv_2 = ZeroPadding2D((2, 2))(conv_2)
     conv_2 = merge([
-                       Convolution2D(128, 5, 5, activation="relu", name='conv_2_' + str(i + 1))(
+                       Convolution2D(128, 5, 5, activation='relu', name='conv_2_' + str(i + 1))(
                            splittensor(ratio_split=2, id_split=i)(conv_2)
-                       ) for i in range(2)], mode='concat', concat_axis=1, name="conv_2")
+                       ) for i in range(2)], mode='concat', concat_axis=1, name='conv_2')
 
     conv_3 = MaxPooling2D((3, 3), strides=(2, 2))(conv_2)
     conv_3 = crosschannelnormalization()(conv_3)
@@ -243,31 +252,31 @@ def AlexNet(weights_path=None, heatmap=False):
 
     conv_4 = ZeroPadding2D((1, 1))(conv_3)
     conv_4 = merge([
-                       Convolution2D(192, 3, 3, activation="relu", name='conv_4_' + str(i + 1))(
+                       Convolution2D(192, 3, 3, activation='relu', name='conv_4_' + str(i + 1))(
                            splittensor(ratio_split=2, id_split=i)(conv_4)
-                       ) for i in range(2)], mode='concat', concat_axis=1, name="conv_4")
+                       ) for i in range(2)], mode='concat', concat_axis=1, name='conv_4')
 
     conv_5 = ZeroPadding2D((1, 1))(conv_4)
     conv_5 = merge([
-                       Convolution2D(128, 3, 3, activation="relu", name='conv_5_' + str(i + 1))(
+                       Convolution2D(128, 3, 3, activation='relu', name='conv_5_' + str(i + 1))(
                            splittensor(ratio_split=2, id_split=i)(conv_5)
-                       ) for i in range(2)], mode='concat', concat_axis=1, name="conv_5")
+                       ) for i in range(2)], mode='concat', concat_axis=1, name='conv_5')
 
-    dense_1 = MaxPooling2D((3, 3), strides=(2, 2), name="convpool_5")(conv_5)
+    dense_1 = MaxPooling2D((3, 3), strides=(2, 2), name='convpool_5')(conv_5)
 
     if heatmap:
-        dense_1 = Convolution2D(4096, 6, 6, activation="relu", name="dense_1")(dense_1)
-        dense_2 = Convolution2D(4096, 1, 1, activation="relu", name="dense_2")(dense_1)
-        dense_3 = Convolution2D(1000, 1, 1, name="dense_3")(dense_2)
-        prediction = Softmax4D(axis=1, name="softmax")(dense_3)
+        dense_1 = Convolution2D(4096, 6, 6, activation='relu', name='dense_1')(dense_1)
+        dense_2 = Convolution2D(4096, 1, 1, activation='relu', name='dense_2')(dense_1)
+        dense_3 = Convolution2D(1000, 1, 1, name='dense_3')(dense_2)
+        prediction = Softmax4D(axis=1, name='softmax')(dense_3)
     else:
-        dense_1 = Flatten(name="flatten")(dense_1)
+        dense_1 = Flatten(name='flatten')(dense_1)
         dense_1 = Dense(4096, activation='relu', name='dense_1')(dense_1)
         dense_2 = Dropout(0.5)(dense_1)
         dense_2 = Dense(4096, activation='relu', name='dense_2')(dense_2)
         dense_3 = Dropout(0.5)(dense_2)
         dense_3 = Dense(1000, name='dense_3')(dense_3)
-        prediction = Activation("softmax", name="softmax")(dense_3)
+        prediction = Activation('softmax', name='softmax')(dense_3)
 
     model = Model(input=inputs, output=prediction)
 
@@ -277,7 +286,7 @@ def AlexNet(weights_path=None, heatmap=False):
     return model
 
 
-def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mode="rgb", out=None):
+def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mode='rgb', out=None):
     """
     Consistent preprocessing of images batches
 
@@ -296,7 +305,7 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mod
 
         img = img.astype('float32')
         # We permute the colors to get them in the BGR order
-        if color_mode == "bgr":
+        if color_mode == 'bgr':
             img[:, :, [0, 1, 2]] = img[:, :, [2, 1, 0]]
         # We normalize the colors with the empirical means on the training set
         img[:, :, 0] -= 123.68
@@ -327,21 +336,21 @@ def _demo_heatmap_script():
     Here is a script to compute the heatmap of the dog synsets.
     We find the synsets corresponding to dogs on ImageNet website
     """
-    im = preprocess_image_batch(['examples/dog.jpg'], color_mode="rgb")
+    im = preprocess_image_batch(['examples/dog.jpg'], color_mode='rgb')
 
     # Test pretrained model
     sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
-    model = convnet('alexnet', weights_path="weights/alexnet_weights.h5", heatmap=True)
+    model = convnet('alexnet', weights_path='weights/alexnet_weights.h5', heatmap=True)
     model.compile(optimizer=sgd, loss='mse')
 
     out = model.predict(im)
 
-    s = "n02084071"
+    s = 'n02084071'
     # Most of the synsets are not in the subset of the synsets used in ImageNet recognition task.
     ids = np.array([id_ for id_ in synset_to_dfs_ids(s) if id_ is not None])
     heatmap = out[0, ids, :, :].sum(axis=0)
     return heatmap
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     _demo_heatmap_script()

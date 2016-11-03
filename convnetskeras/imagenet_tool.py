@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from os.path import join, dirname
+from os.path import dirname
+from os.path import join
 
 from scipy.io import loadmat
 
-meta_clsloc_file = join(dirname(__file__), "data", "meta_clsloc.mat")
+meta_clsloc_file = join(dirname(__file__), 'data', 'meta_clsloc.mat')
 
-synsets = loadmat(meta_clsloc_file)["synsets"][0]
+synsets = loadmat(meta_clsloc_file)['synsets'][0]
 
 synsets_imagenet_sorted = sorted([(int(s[0]), str(s[1][0])) for s in synsets[:1000]],
                                  key=lambda v: v[1])
@@ -56,4 +57,4 @@ def id_to_words(id_):
 def pprint_output(out, n_max_synsets=10):
     best_ids = out.argsort()[::-1][:10]
     for u in best_ids:
-        print("%.2f" % round(100 * out[u], 2) + " : " + id_to_words(u))
+        print('%.2f' % round(100 * out[u], 2) + ' : ' + id_to_words(u))
