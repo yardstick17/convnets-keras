@@ -264,10 +264,11 @@ def AlexNet(weights_path=None, heatmap=False):
 
     dense_1 = MaxPooling2D((3, 3), strides=(2, 2), name='convpool_5')(conv_5)
 
+    custom_output_categories = 3
     if heatmap:
         dense_1 = Convolution2D(4096, 6, 6, activation='relu', name='dense_1')(dense_1)
         dense_2 = Convolution2D(4096, 1, 1, activation='relu', name='dense_2')(dense_1)
-        dense_3 = Convolution2D(1000, 1, 1, name='dense_3')(dense_2)
+        dense_3 = Convolution2D(custom_output_categories, 1, 1, name='dense_3')(dense_2)
         prediction = Softmax4D(axis=1, name='softmax')(dense_3)
     else:
         dense_1 = Flatten(name='flatten')(dense_1)
@@ -275,7 +276,7 @@ def AlexNet(weights_path=None, heatmap=False):
         dense_2 = Dropout(0.5)(dense_1)
         dense_2 = Dense(4096, activation='relu', name='dense_2')(dense_2)
         dense_3 = Dropout(0.5)(dense_2)
-        dense_3 = Dense(1000, name='dense_3')(dense_3)
+        dense_3 = Dense(custom_output_categories, name='dense_3')(dense_3)
         prediction = Activation('softmax', name='softmax')(dense_3)
 
     model = Model(input=inputs, output=prediction)
