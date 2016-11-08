@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from convnetskeras.customlayers import crosschannelnormalization
-from convnetskeras.customlayers import Softmax4D
-from convnetskeras.customlayers import splittensor
-from convnetskeras.imagenet_tool import synset_to_dfs_ids
+from .customlayers import crosschannelnormalization
+from .customlayers import Softmax4D
+from .customlayers import splittensor
+from .imagenet_tool import synset_to_dfs_ids
 from keras.layers import Activation
 from keras.layers import Dense
 from keras.layers import Dropout
