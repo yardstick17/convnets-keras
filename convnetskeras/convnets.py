@@ -264,7 +264,7 @@ def AlexNet(weights_path=None, heatmap=False):
 
     dense_1 = MaxPooling2D((3, 3), strides=(2, 2), name='convpool_5')(conv_5)
 
-    custom_output_categories = 3
+    custom_output_categories = 4
     if heatmap:
         dense_1 = Convolution2D(4096, 6, 6, activation='relu', name='dense_1')(dense_1)
         dense_2 = Convolution2D(4096, 1, 1, activation='relu', name='dense_2')(dense_1)
