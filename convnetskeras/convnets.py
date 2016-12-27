@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from .customlayers import crosschannelnormalization
+from .customlayers import cross_channel_normalization
 from .customlayers import Softmax4D
 from .customlayers import splittensor
 from .imagenet_tool import synset_to_dfs_ids
@@ -240,7 +240,7 @@ def AlexNet(weights_path=None, heatmap=False):
                            name='conv_1')(inputs)
 
     conv_2 = MaxPooling2D((3, 3), strides=(2, 2))(conv_1)
-    conv_2 = crosschannelnormalization(name='convpool_1')(conv_2)
+    conv_2 = cross_channel_normalization(name='convpool_1')(conv_2)
     conv_2 = ZeroPadding2D((2, 2))(conv_2)
     conv_2 = merge([
                        Convolution2D(128, 5, 5, activation='relu', name='conv_2_' + str(i + 1))(
@@ -248,7 +248,7 @@ def AlexNet(weights_path=None, heatmap=False):
                        ) for i in range(2)], mode='concat', concat_axis=1, name='conv_2')
 
     conv_3 = MaxPooling2D((3, 3), strides=(2, 2))(conv_2)
-    conv_3 = crosschannelnormalization()(conv_3)
+    conv_3 = cross_channel_normalization()(conv_3)
     conv_3 = ZeroPadding2D((1, 1))(conv_3)
     conv_3 = Convolution2D(384, 3, 3, activation='relu', name='conv_3')(conv_3)
 
