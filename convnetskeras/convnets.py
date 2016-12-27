@@ -28,7 +28,7 @@ def convnet(network, weights_path=None, heatmap=False, trainable=None):
 
     BEWARE !! : Since the different convnets have been trained in different settings, they don't take
     data of the same shape. You should change the arguments of preprocess_image_batch for each CNN :
-    * For AlexNet, the data are of shape (227,227), and the colors in the RGB order (default)
+    * For AlexNet, the data are of shape (224,224), and the colors in the RGB order (default)
     * For VGG16 and VGG19, the data are of shape (224,224), and the colors in the BGR order
 
     It can also be used to look at the hidden layers of the model.
@@ -234,7 +234,7 @@ def AlexNet(weights_path=None, heatmap=False):
     if heatmap:
         inputs = Input(shape=(3, None, None))
     else:
-        inputs = Input(shape=(3, 227, 227))
+        inputs = Input(shape=(3, 224, 224))
 
     conv_1 = Convolution2D(96, 11, 11, subsample=(4, 4), activation='relu',
                            name='conv_1')(inputs)
