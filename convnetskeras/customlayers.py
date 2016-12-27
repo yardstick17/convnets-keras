@@ -6,7 +6,7 @@ from keras.layers.core import Lambda
 from keras.layers.core import Merge
 
 
-def crosschannelnormalization(alpha=1e-4, k=2, beta=0.75, n=5, **kwargs):
+def cross_channel_normalization(alpha=1e-4, k=2, beta=0.75, n=5, **kwargs):
     """
     This is the function used for cross channel normalization in the original
     Alexnet
@@ -25,7 +25,10 @@ def crosschannelnormalization(alpha=1e-4, k=2, beta=0.75, n=5, **kwargs):
         scale = scale ** beta
         return X / scale
 
-    return Lambda(f, output_shape=lambda input_shape: input_shape, **kwargs)
+    def func_output_shape(input_shape):
+        return input_shape
+
+    return Lambda(f, output_shape=func_output_shape, **kwargs)
 
 
 def splittensor(axis=1, ratio_split=1, id_split=0, **kwargs):
@@ -45,12 +48,19 @@ def splittensor(axis=1, ratio_split=1, id_split=0, **kwargs):
 
         return output
 
-    def g(input_shape):
+    def get_output_shape_by_ratio_split(input_shape, axis, ratio_split):
         output_shape = list(input_shape)
         output_shape[axis] = output_shape[axis] // ratio_split
         return tuple(output_shape)
 
-    return Lambda(f, output_shape=lambda input_shape: g(input_shape), **kwargs)
+    def wrapped_partial(func, *args, **kwargs):
+        from functools import partial, update_wrapper
+        partial_func = partial(func, *args, **kwargs)
+        update_wrapper(partial_func, func)
+        return partial_func
+
+    func_output_shape = wrapped_partial(get_output_shape_by_ratio_split, axis=axis, ratio_split=ratio_split)
+    return Lambda(f, output_shape=func_output_shape, **kwargs)
 
 
 def convolution2Dgroup(n_group, nb_filter, nb_row, nb_col, **kwargs):
