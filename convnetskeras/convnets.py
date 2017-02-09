@@ -234,7 +234,7 @@ def AlexNet(weights_path=None, heatmap=False):
     if heatmap:
         inputs = Input(shape=(3, None, None))
     else:
-        inputs = Input(shape=(3, 224, 224))
+        inputs = Input(shape=(3, 227, 227))
 
     conv_1 = Convolution2D(96, 11, 11, subsample=(4, 4), activation='relu',
                            name='conv_1')(inputs)
