@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from convnetskeras.customlayers import crosschannelnormalization
-from convnetskeras.customlayers import Softmax4D
-from convnetskeras.customlayers import splittensor
-from convnetskeras.imagenet_tool import synset_to_dfs_ids
 from keras.layers import Activation
 from keras.layers import Dense
 from keras.layers import Dropout
@@ -19,8 +15,18 @@ from keras.optimizers import SGD
 from scipy.misc import imread
 from scipy.misc import imresize
 
+from neural_networks.convolutional_neural_network.convnet_keras.convnetskeras.customlayers import Softmax4D
+from neural_networks.convolutional_neural_network.convnet_keras.convnetskeras.customlayers import \
+    crosschannelnormalization
+from neural_networks.convolutional_neural_network.convnet_keras.convnetskeras.customlayers import splittensor
+from neural_networks.convolutional_neural_network.convnet_keras.convnetskeras.imagenet_tool import synset_to_dfs_ids
 
-def convnet(network, weights_path=None, heatmap=False, trainable=None):
+VGG_16_IMAGE_SHAPE = (224, 224)
+VGG_19_IMAGE_SHAPE = (224, 224)
+ALEXNET_IMAGE_SHAPE = (227, 227)
+
+
+def convnet(network, number_of_output_class, weights_path=None, heatmap=False, trainable=None):
     """
     Returns a keras model for a CNN.
 
@@ -35,7 +41,7 @@ def convnet(network, weights_path=None, heatmap=False, trainable=None):
     >>> im = preprocess_image_batch(['cat.jpg'])
 
     >>> # Test pretrained model
-    >>> model = convnet('vgg_16', 'weights/vgg16_weights.h5')
+    >>> model = convnet(10,'vgg_16', 'weights/vgg16_weights.h5')
     >>> sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
     >>> model.compile(optimizer=sgd, loss='categorical_crossentropy')
     >>> out = model.predict(im)
@@ -60,7 +66,9 @@ def convnet(network, weights_path=None, heatmap=False, trainable=None):
 
     output_dict:
         Dict of feature layers, asked for in output_layers.
+        :param number_of_output_class: Number of classes for classification purpose
     """
+
     def __get_heatmap_model():
         convnet_heatmap = convnet_init(heatmap=True)
         for layer in convnet_heatmap.layers:
@@ -78,12 +86,12 @@ def convnet(network, weights_path=None, heatmap=False, trainable=None):
         return convnet_heatmap
 
     # Select the network
-    convnet_init = __get_model_based_on_input_network(network)
-    convnet = convnet_init(weights_path, heatmap=False)
+    convnet_init = __get_model_based_on_input_network(network,number_of_output_class)
+    convnet = convnet_init(number_of_output_class, weights_path, heatmap=False)
     return __get_heatmap_model() if heatmap else convnet
 
 
-def __get_model_based_on_input_network(network):
+def __get_model_based_on_input_network(network, number_of_output_class):
     """
     Select correct model method based on input string
 
@@ -100,12 +108,12 @@ def __get_model_based_on_input_network(network):
     return convnet_init
 
 
-def VGG_16(weights_path=None, heatmap=False):
+def VGG_16(number_of_output_class, weights_path=None, heatmap=False):
     model = Sequential()
     if heatmap:
         model.add(ZeroPadding2D((1, 1), input_shape=(3, None, None)))
     else:
-        model.add(ZeroPadding2D((1, 1), input_shape=(3, 224, 224)))
+        model.add(ZeroPadding2D((1, 1), input_shape=(3, *VGG_16_IMAGE_SHAPE)))
     model.add(Convolution2D(64, 3, 3, activation='relu', name='conv1_1'))
     model.add(ZeroPadding2D((1, 1)))
     model.add(Convolution2D(64, 3, 3, activation='relu', name='conv1_2'))
@@ -152,7 +160,7 @@ def VGG_16(weights_path=None, heatmap=False):
         model.add(Dropout(0.5))
         model.add(Dense(4096, activation='relu', name='dense_2'))
         model.add(Dropout(0.5))
-        model.add(Dense(1000, name='dense_3'))
+        model.add(Dense(number_of_output_class, name='dense_3'))
         model.add(Activation('softmax', name='softmax'))
 
     if weights_path:
@@ -160,13 +168,13 @@ def VGG_16(weights_path=None, heatmap=False):
     return model
 
 
-def VGG_19(weights_path=None, heatmap=False):
+def VGG_19(number_of_output_class, weights_path=None, heatmap=False):
     model = Sequential()
 
     if heatmap:
         model.add(ZeroPadding2D((1, 1), input_shape=(3, None, None)))
     else:
-        model.add(ZeroPadding2D((1, 1), input_shape=(3, 224, 224)))
+        model.add(ZeroPadding2D((1, 1), input_shape=(3, *VGG_19_IMAGE_SHAPE)))
     model.add(Convolution2D(64, 3, 3, activation='relu', name='conv1_1'))
     model.add(ZeroPadding2D((1, 1)))
     model.add(Convolution2D(64, 3, 3, activation='relu', name='conv1_2'))
@@ -219,7 +227,7 @@ def VGG_19(weights_path=None, heatmap=False):
         model.add(Dropout(0.5))
         model.add(Dense(4096, activation='relu', name='dense_2'))
         model.add(Dropout(0.5))
-        model.add(Dense(1000, name='dense_3'))
+        model.add(Dense(number_of_output_class, name='dense_3'))
         model.add(Activation('softmax'))
 
     if weights_path:
@@ -228,11 +236,11 @@ def VGG_19(weights_path=None, heatmap=False):
     return model
 
 
-def AlexNet(weights_path=None, heatmap=False):
+def AlexNet(number_of_output_class, weights_path=None, heatmap=False):
     if heatmap:
         inputs = Input(shape=(3, None, None))
     else:
-        inputs = Input(shape=(3, 227, 227))
+        inputs = Input(shape=(3, *ALEXNET_IMAGE_SHAPE))
 
     conv_1 = Convolution2D(96, 11, 11, subsample=(4, 4), activation='relu',
                            name='conv_1')(inputs)
@@ -275,7 +283,7 @@ def AlexNet(weights_path=None, heatmap=False):
         dense_2 = Dropout(0.5)(dense_1)
         dense_2 = Dense(4096, activation='relu', name='dense_2')(dense_2)
         dense_3 = Dropout(0.5)(dense_2)
-        dense_3 = Dense(1000, name='dense_3')(dense_3)
+        dense_3 = Dense(number_of_output_class, name='dense_3')(dense_3)
         prediction = Activation('softmax', name='softmax')(dense_3)
 
     model = Model(input=inputs, output=prediction)
@@ -323,7 +331,7 @@ def preprocess_image_batch(image_paths, img_size=None, crop_size=None, color_mod
         img_batch = np.stack(img_list, axis=0)
     except:
         raise ValueError('when img_size and crop_size are None, images'
-                ' in image_paths must have the same shapes.')
+                         ' in image_paths must have the same shapes.')
 
     if out is not None and hasattr(out, 'append'):
         out.append(img_batch)
