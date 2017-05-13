@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from .customlayers import cross_channel_normalization
-from .customlayers import Softmax4D
+# from .customlayers import cross_channel_normalization
+from keras.engine import Layer
+from keras import backend as K
+
+from .customlayers import Softmax4D, cross_channel_normalization
 from .customlayers import splittensor
 from .imagenet_tool import synset_to_dfs_ids
 from keras.layers import Activation
@@ -240,7 +243,7 @@ def AlexNet(weights_path=None, heatmap=False):
                            name='conv_1')(inputs)
 
     conv_2 = MaxPooling2D((3, 3), strides=(2, 2))(conv_1)
-    conv_2 = cross_channel_normalization(name='convpool_1')(conv_2)
+    conv_2 = CrossChannelNormalization(name='convpool_1')(conv_2)
     conv_2 = ZeroPadding2D((2, 2))(conv_2)
     conv_2 = merge([
                        Convolution2D(128, 5, 5, activation='relu', name='conv_2_' + str(i + 1))(
@@ -248,7 +251,7 @@ def AlexNet(weights_path=None, heatmap=False):
                        ) for i in range(2)], mode='concat', concat_axis=1, name='conv_2')
 
     conv_3 = MaxPooling2D((3, 3), strides=(2, 2))(conv_2)
-    conv_3 = cross_channel_normalization()(conv_3)
+    conv_3 = CrossChannelNormalization(name='convpool_3')(conv_3)
     conv_3 = ZeroPadding2D((1, 1))(conv_3)
     conv_3 = Convolution2D(384, 3, 3, activation='relu', name='conv_3')(conv_3)
 
@@ -353,6 +356,48 @@ def _demo_heatmap_script():
     heatmap = out[0, ids, :, :].sum(axis=0)
     return heatmap
 
+
+
+class CrossChannelNormalization(Layer):
+
+    def __init__(self, **kwargs):
+        self.dim_ordering = K.image_dim_ordering()
+        assert self.dim_ordering in {'tf', 'th'}, 'dim_ordering must be in {tf, th}'
+        super(CrossChannelNormalization, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        if self.dim_ordering == 'th':
+            self.nb_channels = input_shape[1]
+        elif self.dim_ordering == 'tf':
+            self.nb_channels = input_shape[3]
+    #     self.kernel = self.add_weight(shape=(input_shape[1], input_shape),
+    #                                   initializer='uniform',
+    #                                   trainable=True)
+        super(CrossChannelNormalization, self).build(input_shape)  # Be sure to call this somewhere!
+
+    def get_config(self):
+        config = {'CrossChannelNormalization': CrossChannelNormalization}
+        base_config = super(CrossChannelNormalization, self).get_config()
+        # return base_config
+        return dict(list(base_config.items())) # + list(config.items()))
+
+    def call(self, x, mask=None):
+        X = x
+        b, ch, r, c = X.shape
+        alpha = 1e-4
+        k = 2
+        beta = 0.75
+        n = 5
+        half = n // 2
+        square = K.square(X)
+        extra_channels = K.spatial_2d_padding(K.permute_dimensions(square, (0, 2, 3, 1))
+                                              , (0, half))
+        extra_channels = K.permute_dimensions(extra_channels, (0, 3, 1, 2))
+        scale = k
+        for i in range(n):
+            scale += alpha * extra_channels[:, i:i + ch, :, :]
+        scale = scale ** beta
+        return X / scale
 
 if __name__ == '__main__':
     _demo_heatmap_script()
